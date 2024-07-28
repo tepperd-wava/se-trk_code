@@ -1,1 +1,69 @@
+'C O L O R S
+'         FILL HEX     FONT RGB            FONT RGB         LINE FILL RGB
+'RR1       78A1BB   RGB(120,161,187)   RGB(255,255,255)  RGB(217, 217, 217)       
+'RR2       58A4B0   RGB(88,164,176)    RGB(255,255,255)  RGB(217, 217, 217)
+'RR3       D6C17A   RGB(214,193,122)   RGB(255,255,255)  RGB(217, 217, 217)
+'RR4       BE92A2   RGB(190,146,162)   RGB(255,255,255)  RGB(217, 217, 217)
+'RR5       481D24   RGB(72,29,36)      RGB(255,255,255)  RGB(217, 217, 217)
+'Received  003876   RGB(0,56,118)      RGB(255,255,255)  RGB(0,131,87)
+'No RR     FFFFFF   RGB(255,255,255)   RGB(0,0,0)        RGB(217,217,217)
+'Flag      B26770   RGB(178, 103, 112) RGB(255,255,255)  RGB(217, 217, 217)
+'WD        262626   RGB(38, 38, 38)    RGB(255,255,255)  RGB(217, 217, 217)
+'
+'.LineStyle = xlContinuous
+'.Weight = xlThin
+'
+' Dominique Tepper, 28JUL2024
 
+Sub LogRequstAttempts_Click()
+
+' DECLARE PROPERTIES
+     Dim ws As Worksheet
+     Dim ac As Integer, answer As As Integer
+     Dim dateFirstSRR As String', dateNextSRR As String
+     Dim rngFirstSRR As Range, rngNextSRR As Range, rngAllIDNums As Range
+     Dim 'rr2 As Range, rr3 As Range, rr4 As Range, rr5 As Range
+
+'DECLARE CONTANT VALUES
+     ac = ActiveCell.Row
+     dateFirstSRR = Format(Date, "mm/dd/yy")
+     'R = Format(Date, "mm/dd/yy")
+
+' DECLARE CONSTANT OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE504")
+     Set R = ws.Cells(ac,"B")
+     Set rngAllIDNums = ws.Range("C" & ac & ":D" & ac)
+     Set R = ws.Cells(ac, "M")
+     'Set rr2 = ws.Cells(ac, "N")
+     'Set rr3 = ws.Cells(ac, "O")
+     'Set rr4 = ws.Cells(ac, "P")
+     'Set rr5 = ws.Cells(ac, "Q")
+
+     With ws
+          If ac < 4 Then
+               MsgBox("This row can't be modified.")
+          Else
+               'If rr1 = "" Then
+
+                    'Logs first SRR date in Column M / RR1
+                    rngFirstSRR = dateFirstSRR
+
+                    'Calculates the next follow up dates (Prev SRR Date + 7 days)
+                    rr2 = DateAdd("d", 7, R)
+                    rr3 = DateAdd("d", 7, rr2)
+                    rr3 = DateAdd("d", 7, rr3)
+                    rr3 = DateAdd("d", 7, rr4)
+
+                    'Copies the entry's next follow up date from RR2 to Column B
+                    'and applies formatting based on the SRR Attempt #.
+                    rngNextSRR = rr2
+                    rngNextSRR.Interior.Color = RGB(88,164,176) 
+                    rngNextSRR.Font.Color = RGB(255,255,255)
+
+                    ' Applies RR1 Formatting on the TVE and Identity ID columns
+                    rngAllIDNums.Interior.Color = RGB(120,161,187) 
+                    rngAllIDNums.Font.Color = RGB(255,255,255)
+               'End If
+          End If
+     End With
+End Sub
