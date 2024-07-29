@@ -19,25 +19,30 @@ Sub LogRequstAttempts_Click()
 
 ' DECLARE PROPERTIES
      Dim ws As Worksheet
-     Dim ac As Integer, answer As As Integer
-     Dim dateFirstSRR As String', dateNextSRR As String
-     Dim rngFirstSRR As Range, rngNextSRR As Range, rngAllIDNums As Range
-     Dim 'rr2 As Range, rr3 As Range, rr4 As Range, rr5 As Range
+     Dim ac As Integer, answer As Integer
+     Dim dateSRR1 As String, dateSRR2 As String, dateSRR3 As String
+     Dim dateSRR4 As String, dateSRR5 As String, dateNextSRR As String
+     Dim rngSRR1 As Range, rngNextSRR As Range, rngAllIDNums As Range
+     Dim rngSRR2 As Range, rngSRR3 As Range, rngSRR4 As Range, rngSRR5 As Range
 
-'DECLARE CONTANT VALUES
+'DECLARE CONSTANT VALUES
      ac = ActiveCell.Row
-     dateFirstSRR = Format(Date, "mm/dd/yy")
-     'R = Format(Date, "mm/dd/yy")
+     dateSRR1= Format(Date, "mm/dd/yy")
+     dateSRR2 = DateAdd("d", 7, dateSRR1)
+     dateSRR3 = DateAdd("d", 7, dateSRR2)
+     dateSRR4 = DateAdd("d", 7, dateSRR3)
+     dateSRR5 = DateAdd("d", 7, dateSRR4)
+     dateNextSRR = Format(Date, "mm/dd/yy")
 
 ' DECLARE CONSTANT OBJECTS
      Set ws = ThisWorkbook.Sheets("SE504")
-     Set R = ws.Cells(ac,"B")
+     Set rngNextSRR = ws.Cells(ac,"B")
      Set rngAllIDNums = ws.Range("C" & ac & ":D" & ac)
-     Set R = ws.Cells(ac, "M")
-     'Set rr2 = ws.Cells(ac, "N")
-     'Set rr3 = ws.Cells(ac, "O")
-     'Set rr4 = ws.Cells(ac, "P")
-     'Set rr5 = ws.Cells(ac, "Q")
+     Set rngSRR1 = ws.Cells(ac, "M")
+     Set rngSRR2 = ws.Cells(ac, "N")
+     Set rngSRR3 = ws.Cells(ac, "O")
+     Set rngSRR4 = ws.Cells(ac, "P")
+     Set rngSRR5 = ws.Cells(ac, "Q")
 
      With ws
           If ac < 4 Then
@@ -46,17 +51,17 @@ Sub LogRequstAttempts_Click()
                'If rr1 = "" Then
 
                     'Logs first SRR date in Column M / RR1
-                    rngFirstSRR = dateFirstSRR
+                    rngSRR1 = dateSRR1
 
-                    'Calculates the next follow up dates (Prev SRR Date + 7 days)
-                    rr2 = DateAdd("d", 7, R)
-                    rr3 = DateAdd("d", 7, rr2)
-                    rr3 = DateAdd("d", 7, rr3)
-                    rr3 = DateAdd("d", 7, rr4)
+                    'Fills Columns N:Q with follow up dates to complete a series of 5 attempts (Prev SRR Date + 7 days)
+                    rngSRR2 = dateSRR2
+                    rngSRR3 = dateSRR3
+                    rngSRR4 = dateSRR4
+                    rngSRR5 = dateSRR5
 
                     'Copies the entry's next follow up date from RR2 to Column B
                     'and applies formatting based on the SRR Attempt #.
-                    rngNextSRR = rr2
+                    rngNextSRR = rngSRR2
                     rngNextSRR.Interior.Color = RGB(88,164,176) 
                     rngNextSRR.Font.Color = RGB(255,255,255)
 
