@@ -1,0 +1,69 @@
+' Dominique Tepper, 04NOV2024
+Sub btnLogCallDone_Click()
+
+
+     Dim ws As Worksheet
+     Dim date_callDone As String, str_call As String, str_vm As String, str_logPrevContact As String
+     Dim rng_callDoneDate As Range, rng_idTVE As Range, rng_entryInfo As Range
+     Dim ac As Integer, answer As Integer, calllog As Integer
+
+     ' DECLARE VARIABLES
+     ac = ActiveCell.Row
+     date_callDone = Format(Date, "mm/dd/yy")
+     str_logPrevContact = ""
+     str_call = "Call " + date_callDone + "; "
+     str_vm = "VM " + date_callDone + "; "
+     
+
+     ' DECLARE OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE Request Tracker")
+     Set rng_entryInfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
+     Set rng_idTVE = ws.Cells(ac, "A")
+     Set rng_callDoneDate = ws.Cells(ac, "K")
+
+     With ws
+
+          If ac < 5 Then
+               MsgBox ("This area can't be modified.")
+
+          ElseIf rng_idTVE = "" Then
+
+               If rng_entryInfo = "" Then
+                    MsgBox ("There is no entry for this IDT update.")
+               ElseIf rng_entryInfo <> "" Then
+                    MsgBox ("This entry's TVE ID was deleted or clear this row's contents before proceeding.")
+               End If
+               
+          Else
+
+               If rng_callDoneDate <> "" Then
+                    answer = MsgBox("Select an option below:" & vbNewLine & "Yes = Update Date / Last Contact Type" & vbNewLine & "No = Clear Entry" & vbNewLine & "Cancel = Do Nothing", vbYesNoCancel + vbQuestion, "Call Log Update")
+
+                    If answer = vbYes Then
+                         str_logPrevContact = rng_callDoneDate
+
+                         calllog = MsgBox("Select new call type to log:" & vbNewLine & "Yes: Live Call" & vbNewLine & "No: Voice Message" & vbNewLine & "Cancel: Exit Options", vbYesNoCancel + vbinfo, "Log New Call")
+
+                              If calllog = vbYes Then
+                                   rng_callDoneDate = str_call + str_logPrevContact
+                              ElseIf calllog = vbNo Then
+                                   rng_callDoneDate = str_vm + str_logPrevContact
+                              End If
+
+                    ElseIf answer = vbNo Then
+                         rng_callDoneDate = ""
+                    End If
+
+               Else
+                    calllog = MsgBox("Pick a preset from the list or Cancel note update." & vbNewLine & "Yes: Live Call" & vbNewLine & "No: Voice Message" & vbNewLine & "Cancel: Exit Options", vbYesNoCancel + vbinfo, "New Call Log")
+
+                    If calllog = vbYes Then
+                         rng_callDoneDate = str_call
+                    ElseIf calllog = vbNo Then
+                         rng_callDoneDate = str_vm
+                    End If
+               End If
+          End If
+     End With
+End Sub
+' 05NOV2024 DT
