@@ -1,52 +1,60 @@
 Sub btnLogIDTDone_Click()
 
-     Dim ws As Workbook
-     Dim date_IDTDone As String, str_pending As String, str_done As String
-     Dim rng_IDTDoneDate As Range, rng_idTVE As Range, rng_entryinfo As Range
+     Dim ws As Worksheet
+     Dim date_idtDone As String, str_pending As String, str_done As String
+     Dim rng_idtDoneDate As Range, rng_idTVE As Range, rng_entryInfo As Range
      Dim ac As Integer, answer As Integer, idtlog As Integer
 
      ' DECLARE VARIABLES
      ac = ActiveCell.Row
-     date_IDTDone = Format(Date, "mm/dd/yy")
-     str_pending = "Pending " + date_IDTDone
-     str_done = "Done " + date_IDTDone
+     date_idtDone = Format(Date, "mm/dd/yy")
+     str_pending = "Pending " + date_idtDone
+     str_done = "Done " + date_idtDone
 
      ' DECLARE OBJECTS
      Set ws = ThisWorkbook.Sheets("SE Request Tracker")
-     Set rng_entryinfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
-     Set rng_idTVE = ws.Cells(ac,"A")
-     Set rng_IDTDoneDate = ws.Cells(ac,"J")
+     Set rng_entryInfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
+     Set rng_idTVE = ws.Cells(ac, "A")
+     Set rng_idtDoneDate = ws.Cells(ac, "J")
 
      With ws
 
           If ac < 5 Then
-               MsgBox("This area can't be modified.")
+               MsgBox ("This area can't be modified.")
 
+          ElseIf rng_idTVE = "" Then
+
+               If rng_entryInfo = "" Then
+                    MsgBox ("There is no entry for this IDT update.")
+               ElseIf rng_entryInfo <> "" Then
+                    MsgBox ("This entry's TVE ID was deleted or clear this row's contents before proceeding.")
+               End If
+               
           Else
 
-               If rng_IDTDoneDate <> "" Then
-                    answer = MsgBox("Yes = Update Date" &vbNewLine "No = Clear Entry" &vbNewLine "Cancel = Do Nothing", vbYesNoCancel + vbQuestion, "Log Update")
+               If rng_idtDoneDate <> "" Then
+                    answer = MsgBox("Yes = Update Date" & vbNewLine & "No = Clear Entry" & vbNewLine & "Cancel = Do Nothing", vbYesNoCancel + vbQuestion, "Log Update")
 
                     If answer = vbYes Then
-                         idtlog = MsgBox("Pick a preset from the list or Cancel note update." &vbNewLine &vbNewLine "Yes: Pending" &vbNewLine "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
+                         idtlog = MsgBox("Pick a preset from the list or Cancel note update." & vbNewLine & vbNewLine & "Yes: Pending" & vbNewLine & "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
 
                          If idtlog = vbYes Then
-                              rngIDTDoneDate = str_pending
+                              rng_idtDoneDate = str_pending
                          ElseIf idtlog = vbNo Then
-                              rngIDTDoneDate = str_done
+                              rng_idtDoneDate = str_done
                          End If
 
                     ElseIf answer = vbNo Then
-                         rngIDTDoneDate = ""
+                         rng_idtDoneDate = ""
                     End If
 
                Else
-                    idtlog = MsgBox("Pick a preset from the list or Cancel note update." &vbNewLine &vbNewLine "Yes: Pending" &vbNewLine "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
+                    idtlog = MsgBox("Pick a preset from the list or Cancel note update." & vbNewLine & vbNewLine & "Yes: Pending" & vbNewLine & "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
 
                     If idtlog = vbYes Then
-                         rngIDTDoneDate = str_pending
+                         rng_idtDoneDate = str_pending
                     ElseIf idtlog = vbNo Then
-                         rngIDTDoneDate = str_done
+                         rng_idtDoneDate = str_done
                     End If
                End If
           End If
