@@ -31,34 +31,31 @@
 ' p. Completed (Fill)         008357    RGB(0,131,87)
 ' q. Flag (Fill)              757097    RGB(117,112,151)
 ' r. WD (Fill)                977092    RGB(151,112,146)
-'
-' Dominique Tepper, 04NOV2024
 
 Sub btnLogRequestAttempt_Click()
 
      Dim ws As Worksheet
-     Dim date_ReqLogged As String
-     Dim rng_MstRecentReq As Range, rng_SR1 As Range, rng_SR2 As Range, rng_SR3 As Range, rng_SR4 As Range, rng_SR5 As Range, rng_SR6 As Range, rng_SR7 As Range, rng_SR8 As Range, rng_SR9 As Range, rng_idTVE As Range
+     Dim date_logRequest As String
+     Dim rng_dateMstRecReq As Range, rng_dateSR1 As Range, rng_dateSR2 As Range, rng_dateSR3 As Range, rng_dateSR4 As Range, rng_dateSR5 As Range, rng_dateSR6 As Range, rng_dateSR7 As Range, rng_dateSR8 As Range, rng_dateSR9 As Range, rng_idTVE As Range
      Dim ac As Integer
      
      ' DECLARE VARIABLES
      ac = ActiveCell.Row
-     date_ReqLogged = Format(Date, "mm/dd/yy")
+     date_logRequest = Format(Date, "mm/dd/yy")
 
      ' DECLARE OBJECTS
      Set ws = ThisWorkbook.Sheets("SE Request Tracker")
-     Set rng_Header = Range(Cells(1, 1), Cells(3, 3))
      Set rng_idTVE = ws.Cells(ac, "A")
-     Set rng_MstRecentReq = ws.Cells(ac, "I")
-     Set rng_SR1 = ws.Cells(ac, "O")
-     Set rng_SR2 = ws.Cells(ac, "Q")
-     Set rng_SR3 = ws.Cells(ac, "R")
-     Set rng_SR4 = ws.Cells(ac, "S")
-     Set rng_SR5 = ws.Cells(ac, "T")
-     Set rng_SR6 = ws.Cells(ac, "U")
-     Set rng_SR7 = ws.Cells(ac, "V")
-     Set rng_SR8 = ws.Cells(ac, "W")
-     Set rng_SR9 = ws.Cells(ac, "X")
+     Set rng_dateMstRecReq = ws.Cells(ac, "I")
+     Set rng_dateSR1 = ws.Cells(ac, "O")
+     Set rng_dateSR2 = ws.Cells(ac, "Q")
+     Set rng_dateSR3 = ws.Cells(ac, "R")
+     Set rng_dateSR4 = ws.Cells(ac, "S")
+     Set rng_dateSR5 = ws.Cells(ac, "T")
+     Set rng_dateSR6 = ws.Cells(ac, "U")
+     Set rng_dateSR7 = ws.Cells(ac, "V")
+     Set rng_dateSR8 = ws.Cells(ac, "W")
+     Set rng_dateSR9 = ws.Cells(ac, "X")
      
      With ws
           If ac < 5 Then
@@ -72,103 +69,102 @@ Sub btnLogRequestAttempt_Click()
                Else
 
                     ' Initial RR / SR1
-                    If rng_MstRecentReq = "" Then
-                         rng_SR1 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR1
+                    If rng_dateMstRecReq = "" Then
+                         rng_dateSR1 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR1
                          rng_idTVE.Interior.Color = RGB(161, 204, 165)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(161, 204, 165)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(161, 204, 165)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     ' (+) rng_MstRecentReq log, (-) SR1 log
-                    ElseIf rng_MstRecentReq <> "" And rng_SR1 = "" Then
+                    ElseIf rng_dateMstRecReq <> "" And rng_dateSR1 = "" Then
                          
                          ' capture Most Recent Request Date as SR1
-                         rng_SR1 = rng_MstRecentReq
+                         rng_dateSR1 = rng_dateMstRecReq
 
                          ' log current request date as SR2
-                         rng_SR2 = date_ReqLogged
+                         rng_SdateR2 = date_logRequest
 
                          ' apply SR2 formatting
                          rng_idTVE.Interior.Color = RGB(143, 185, 150)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(143, 185, 150)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(143, 185, 150)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     ' SR2
-                    ElseIf rng_SR1 <> "" And rng_SR2 = "" Then
-                         rng_SR2 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR2
+                    ElseIf rng_dateSR1 <> "" And rng_dateSR2 = "" Then
+                         rng_dateSR2 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR2
                          rng_idTVE.Interior.Color = RGB(143, 185, 150)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(143, 185, 150)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(143, 185, 150)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
                          
                     ' SR3
-                    ElseIf rng_SR2 <> "" And rng_SR3 = "" Then
-                         rng_SR3 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR3
+                    ElseIf rng_dateSR2 <> "" And rng_dateSR3 = "" Then
+                         rng_dateSR3 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR3
                          rng_idTVE.Interior.Color = RGB(112, 151, 117)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(112, 151, 117)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(112, 151, 117)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     'SR4
-                    ElseIf rng_SR3 <> "" And rng_SR4 = "" Then
-                         rng_SR4 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR4
+                    ElseIf rng_dateSR3 <> "" And rng_dateSR4 = "" Then
+                         rng_dateSR4 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR4
                          rng_idTVE.Interior.Color = RGB(65, 93, 67)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(65, 93, 67)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(65, 93, 67)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     'SR5
-                    ElseIf rng_SR4 <> "" And rng_SR5 = "" Then
-                         rng_SR5 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR5
+                    ElseIf rng_dateSR4 <> "" And rng_dateSR5 = "" Then
+                         rng_dateSR5 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR5
                          rng_idTVE.Interior.Color = RGB(17, 29, 19)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(17, 29, 19)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(17, 29, 19)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     'SR6
-                    ElseIf rng_SR5 <> "" And rng_SR6 = "" Then
-                         rng_SR6 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR6
+                    ElseIf rng_dateSR5 <> "" And rng_dateSR6 = "" Then
+                         rng_dateSR6 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR6
                          rng_idTVE.Interior.Color = RGB(142, 202, 230)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(142, 202, 230)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(142, 202, 230)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
                     
                     'SR7
-                    ElseIf rng_SR6 <> "" And rng_SR7 = "" Then
-                         rng_SR7 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR7
+                    ElseIf rng_dateSR6 <> "" And rng_dateSR7 = "" Then
+                         rng_dateSR7 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR7
                          rng_idTVE.Interior.Color = RGB(33, 158, 188)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(33, 158, 188)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(33, 158, 188)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     'SR8
-                    ElseIf rng_SR7 <> "" And rng_SR8 = "" Then
-                         rng_SR8 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR8
+                    ElseIf rng_dateSR7 <> "" And rng_dateSR8 = "" Then
+                         rng_dateSR8 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR8
                          rng_idTVE.Interior.Color = RGB(255, 183, 3)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(255, 183, 3)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(255, 183, 3)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
 
                     'SR9
-                    ElseIf rng_SR8 <> "" And rng_SR9 = "" Then
-                         rng_SR9 = date_ReqLogged
-                         rng_MstRecentReq = rng_SR9
+                    ElseIf rng_dateSR8 <> "" And rng_dateSR9 = "" Then
+                         rng_dateSR9 = date_logRequest
+                         rng_dateMstRecReq = rng_dateSR9
                          rng_idTVE.Interior.Color = RGB(178, 103, 112)
                          rng_idTVE.Font.Color = RGB(255, 255, 255)
-                         rng_MstRecentReq.Interior.Color = RGB(178, 103, 112)
-                         rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(178, 103, 112)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
                     End If
                End If
           End If
      End With
 End Sub
-
