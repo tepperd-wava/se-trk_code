@@ -1,3 +1,4 @@
+' Dominique Tepper, 04NOV2024
 Sub btnLogIDTDone_Click()
 
      Dim ws As Worksheet
@@ -60,3 +61,4 @@ Sub btnLogIDTDone_Click()
           End If
      End With
 End Sub
+' 05NOV2024
