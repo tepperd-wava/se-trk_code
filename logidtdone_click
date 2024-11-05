@@ -2,63 +2,64 @@
 Sub btnLogIDTDone_Click()
 
      Dim ws As Worksheet
-     Dim date_idtDone As String, str_pending As String, str_done As String
+     Dim date_idtDone As String, str_pending As String, str_done As String, str_logPrevStatus As String
      Dim rng_idtDoneDate As Range, rng_idTVE As Range, rng_entryInfo As Range
      Dim ac As Integer, answer As Integer, idtlog As Integer
-
+ 
      ' DECLARE VARIABLES
      ac = ActiveCell.Row
      date_idtDone = Format(Date, "mm/dd/yy")
-     str_pending = "Pending " + date_idtDone
-     str_done = "Done " + date_idtDone
-
+     str_logPrevStatus = ""
+     str_pending = "Pending " & date_idtDone & "; "
+     str_done = "Done " & date_idtDone & "; "
+ 
      ' DECLARE OBJECTS
      Set ws = ThisWorkbook.Sheets("SE Request Tracker")
      Set rng_entryInfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
      Set rng_idTVE = ws.Cells(ac, "A")
      Set rng_idtDoneDate = ws.Cells(ac, "J")
-
+ 
      With ws
 
-          If ac < 5 Then
-               MsgBox ("This area can't be modified.")
+         If ac >= 5 Then
 
-          ElseIf rng_idTVE = "" Then
+             If rng_idTVE.Value = "" Then
+                 If Application.WorksheetFunction.CountA(rng_entryInfo) > 0 Then
+                     MsgBox "This entry's TVE ID was deleted or clear this row's contents before proceeding."
+                 Else
+                     MsgBox "No entry to apply the call log update to."
+                 End If
 
-               If rng_entryInfo = "" Then
-                    MsgBox ("There is no entry for this IDT update.")
-               ElseIf rng_entryInfo <> "" Then
-                    MsgBox ("This entry's TVE ID was deleted or clear this row's contents before proceeding.")
-               End If
-               
-          Else
+             ElseIf rng_idtDoneDate.Value <> "" Then
+                 answer = MsgBox("Select update:" & vbNewLine & "Yes = Date / IDT Status" & vbNewLine & "No = Clear Entry" & vbNewLine & "Cancel = Exit Options", vbYesNoCancel + vbQuestion, "IDT Status Update")
 
-               If rng_idtDoneDate <> "" Then
-                    answer = MsgBox("Yes = Update Date" & vbNewLine & "No = Clear Entry" & vbNewLine & "Cancel = Do Nothing", vbYesNoCancel + vbQuestion, "Log Update")
+                 If answer = vbYes Then
+                     str_logPrevStatus = rng_idtDoneDate.Value
 
-                    If answer = vbYes Then
-                         idtlog = MsgBox("Pick a preset from the list or Cancel note update." & vbNewLine & vbNewLine & "Yes: Pending" & vbNewLine & "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
+                     idtlog = MsgBox("Select IDT status to log:" & vbNewLine & "Yes: Pending" & vbNewLine & "No: Done" & vbNewLine & "Cancel: Exit Options", vbYesNoCancel + vbInformation, "IDT Status")
 
-                         If idtlog = vbYes Then
-                              rng_idtDoneDate = str_pending
-                         ElseIf idtlog = vbNo Then
-                              rng_idtDoneDate = str_done
-                         End If
+                     If idtlog = vbYes Then
+                         rng_idtDoneDate.Value = str_pending & str_logPrevStatus
+                     ElseIf idtlog = vbNo Then
+                         rng_idtDoneDate.Value = str_done & str_logPrevStatus
+                     End If
 
-                    ElseIf answer = vbNo Then
-                         rng_idtDoneDate = ""
-                    End If
-
-               Else
-                    idtlog = MsgBox("Pick a preset from the list or Cancel note update." & vbNewLine & vbNewLine & "Yes: Pending" & vbNewLine & "No: Done", vbYesNoCancel + vbinfo, "IDT Log")
-
-                    If idtlog = vbYes Then
-                         rng_idtDoneDate = str_pending
-                    ElseIf idtlog = vbNo Then
-                         rng_idtDoneDate = str_done
-                    End If
-               End If
-          End If
+                 ElseIf answer = vbNo Then
+                     rng_idtDoneDate.Value = ""
+                 End If
+                 
+             Else
+                 answer = MsgBox("Select IDT Note:" & vbNewLine & "Yes: IDT Pending" & vbNewLine & "No: IDT Done" & vbNewLine & "Cancel: Exit Options", vbYesNoCancel + vbInformation, "IDT Status")
+                 If answer = vbYes Then
+                     rng_idtDoneDate.Value = str_pending
+                 ElseIf answer = vbNo Then
+                     rng_idtDoneDate.Value = str_done
+                 End If
+             End If
+         Else
+             MsgBox "Call updates can't be applied here."
+         End If
      End With
-End Sub
-' 05NOV2024
+ End Sub
+ 
+' 05NOV2024 DT
