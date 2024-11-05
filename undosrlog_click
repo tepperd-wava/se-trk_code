@@ -1,0 +1,135 @@
+' Dominique Tepper, 04NOV2024
+Sub btnUndoSRLog_Click()
+
+     Dim ws As Worksheet
+     Dim date_logRequest As String
+     Dim rng_dateMstRecReq As Range, rng_dateSR1 As Range, rng_dateSR2 As Range, rng_dateSR3 As Range, rng_dateSR4 As Range, rng_dateSR5 As Range, rng_dateSR6 As Range, rng_dateSR7 As Range, rng_dateSR8 As Range, rng_dateSR9 As Range, rng_idTVE As Range, rng_entry As Range, rng_entryInfo As Range
+     Dim ac As Integer, answer As Integer
+     
+     ' DECLARE VARIABLES
+     ac = ActiveCell.Row
+     date_logRequest = Format(Date, "mm/dd/yy")
+
+     ' DECLARE OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE Request Tracker")
+     Set rng_idTVE = ws.Cells(ac, "A")
+     Set rng_dateMstRecReq = ws.Cells(ac, "I")
+     Set rng_dateSR1 = ws.Cells(ac, "O")
+     Set rng_dateSR2 = ws.Cells(ac, "Q")
+     Set rng_dateSR3 = ws.Cells(ac, "R")
+     Set rng_dateSR4 = ws.Cells(ac, "S")
+     Set rng_dateSR5 = ws.Cells(ac, "T")
+     Set rng_dateSR6 = ws.Cells(ac, "U")
+     Set rng_dateSR7 = ws.Cells(ac, "V")
+     Set rng_dateSR8 = ws.Cells(ac, "W")
+     Set rng_dateSR9 = ws.Cells(ac, "X")
+     Set rng_entry = ActiveCell.EntireRow
+     Set rng_entryInfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
+     
+     With ws
+
+          If ac < 5 Then
+               MsgBox ("You can't undo this row.")
+          
+          ' TVE ID = N, Data = Y
+          ElseIf rng_idTVE = "" Then
+               If rng_entryInfo <> "" Then
+                    MsgBox ("There's data in this row -- can't clear it yet.")
+               Else
+                    rng_entry.Font.Color = RGB(0, 0, 0)
+                    rng_entry.Interior.Color = xlNone
+               End If
+               
+          ' Has Data
+          Else
+               ' Undo SR9
+               If rng_dateSR9 <> "" Then
+                    rng_dateSR9 = ""
+                    rng_dateMstRecReq = rng_dateSR8
+                    rng_idTVE.Interior.Color = RGB(255, 183, 3)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(255, 183, 3)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR8
+               ElseIf rng_dateSR8 <> "" And rng_dateSR9 = "" Then
+                    rng_dateSR8 = ""
+                    rng_dateMstRecReq = rng_dateSR7
+                    rng_idTVE.Interior.Color = RGB(33, 158, 188)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(33, 158, 188)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR7
+               ElseIf rng_dateSR7 <> "" And rng_dateSR8 = "" Then
+                    rng_dateSR7 = ""
+                    rng_dateMstRecReq = rng_dateSR6
+                    rng_idTVE.Interior.Color = RGB(142, 202, 230)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(142, 202, 230)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR6
+               ElseIf rng_dateSR6 <> "" And rng_dateSR7 = "" Then
+                    rng_dateSR6 = ""
+                    rng_dateMstRecReq = rng_dateSR5
+                    rng_idTVE.Interior.Color = RGB(17, 29, 19)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(17, 29, 19)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+     
+               ' Undo SR5
+               ElseIf rng_dateSR5 <> "" And rng_dateSR6 = "" Then
+                    rng_dateSR5 = ""
+                    rng_dateMstRecReq = rng_dateSR4
+                    rng_idTVE.Interior.Color = RGB(65, 93, 67)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(65, 93, 67)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                         
+               ' Undo SR4
+               ElseIf rng_dateSR4 <> "" And rng_dateSR5 = "" Then
+                    rng_dateSR4 = ""
+                    rng_dateMstRecReq = rng_dateSR3
+                    rng_idTVE.Interior.Color = RGB(112, 151, 117)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(112, 151, 117)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR3
+               ElseIf rng_dateSR3 <> "" And rng_dateSR4 = "" Then
+                    rng_dateSR3 = ""
+                    rng_dateMstRecReq = rng_dateSR2
+                    rng_idTVE.Interior.Color = RGB(143, 185, 150)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(143, 185, 150)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                         
+               ' Undo SR2
+               ElseIf rng_dateSR2 <> "" And rng_dateSR3 = "" Then
+                    rng_dateSR2 = ""
+                    rng_dateMstRecReq = rng_dateSR1
+                    rng_idTVE.Interior.Color = RGB(161, 204, 165)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_dateMstRecReq.Interior.Color = RGB(161, 204, 165)
+                    rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR1
+               ElseIf rng_dateSR1 <> "" And rng_dateSR2 = "" Then
+
+                    answer = MsgBox("This will delete the SR1 and the Most Recent Request dates. Continue?", vbYesNo + vbQuestion, "Delete SR1 Log")
+
+                    If answer = vbYes Then
+                         rng_dateSR1 = ""
+                         rng_dateMstRecReq = ""
+                         rng_idTVE.Interior.Color = xlNone
+                         rng_idTVE.Font.Color = RGB(0, 0, 0)
+                         rng_dateMstRecReq.Interior.Color = xlNone
+                         rng_dateMstRecReq.Font.Color = RGB(0, 0, 0)
+                    
+                    End If
+               End If
+          End If
+     End With
+End Sub
+' 05NOV2024 DT
