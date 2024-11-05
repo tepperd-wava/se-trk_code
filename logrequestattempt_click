@@ -31,7 +31,8 @@
 ' p. Completed (Fill)         008357    RGB(0,131,87)
 ' q. Flag (Fill)              757097    RGB(117,112,151)
 ' r. WD (Fill)                977092    RGB(151,112,146)
-
+'
+' Dominique Tepper, 04NOV2024
 
 Sub btnLogRequestAttempt_Click()
 
