@@ -1,74 +1,169 @@
-'C O L O R S
-'         FILL HEX     FONT RGB            FONT RGB         LINE FILL RGB
-'RR1       78A1BB   RGB(120,161,187)   RGB(255,255,255)  RGB(217, 217, 217)       
-'RR2       58A4B0   RGB(88,164,176)    RGB(255,255,255)  RGB(217, 217, 217)
-'RR3       D6C17A   RGB(214,193,122)   RGB(255,255,255)  RGB(217, 217, 217)
-'RR4       BE92A2   RGB(190,146,162)   RGB(255,255,255)  RGB(217, 217, 217)
-'RR5       481D24   RGB(72,29,36)      RGB(255,255,255)  RGB(217, 217, 217)
-'Received  003876   RGB(0,56,118)      RGB(255,255,255)  RGB(0,131,87)
-'No RR     FFFFFF   RGB(255,255,255)   RGB(0,0,0)        RGB(217,217,217)
-'Flag      B26770   RGB(178, 103, 112) RGB(255,255,255)  RGB(217, 217, 217)
-'WD        262626   RGB(38, 38, 38)    RGB(255,255,255)  RGB(217, 217, 217)
+' REFERENCE VALUES
 '
-'.LineStyle = xlContinuous
-'.Weight = xlThin
+' 1. COLUMNS
+' A = TVE ID (SR#)            Q = SR2
+' C = First Name (IEP)        R = SR3
+' D = Last Name (Eval)        S = SR4
+' J = Shelley IDT Done        T = SR5
+' K = Megan Received Date     U = SR6
+' L = IEP Received Date       V = SR7
+' M = Eval Received Date      W = SR8
+' O = SR1                     X = SR9
 '
-' Dominique Tepper, 28JUL2024
+' 2. COLORS
+'
+' STEP / LABEL                HEX       RGB
+' a. Black (Font)             000000    RGB(0,0,0)
+' b. White (Font)             FFFFFF    RGB(255,255,255)
+' c. Regular Cell (Border)    D9D9D9    RGB(217,217,217)
+' d. SR1 (Fill)               A1CCA5    RGB(161,204,165)
+' e. SR2 (Fill)               8FB996    RGB(143,185,150)
+' f. SR3 (Fill)               709775    RGB(112,151,117)
+' g. SR4 (Fill)               415D43    RGB(65,93,67)
+' h. SR5 (Fill)               111D13    RGB(17,29,19)
+' i. SR6 (Fill)               8ECAE6    RGB(142, 202, 230)
+' j. SR7 (Fill)               219EBC    RGB(33, 158, 188)
+' k. SR8 (Fill)               FFB703    RGB(255, 183, 3)
+' l. SR9 (Fill)               B26770    RGB(178, 103, 112)
+' m. Received (Border)        008357    RGB(0,131,87)
+' n. Received (Fill)          003876    RGB(0,56,118)
+' o. Completed (Border)       003876    RGB(0,56,118)
+' p. Completed (Fill)         008357    RGB(0,131,87)
+' q. Flag (Fill)              757097    RGB(117,112,151)
+' r. WD (Fill)                977092    RGB(151,112,146)
 
-Sub LogRequstAttempts_Click()
+Sub btnLogRequestAttempt_Click()
 
-' DECLARE PROPERTIES
      Dim ws As Worksheet
-     Dim ac As Integer, answer As Integer
-     Dim dateSRR1 As String, dateSRR2 As String, dateSRR3 As String
-     Dim dateSRR4 As String, dateSRR5 As String, dateNextSRR As String
-     Dim rngSRR1 As Range, rngNextSRR As Range, rngAllIDNums As Range
-     Dim rngSRR2 As Range, rngSRR3 As Range, rngSRR4 As Range, rngSRR5 As Range
+     Dim date_ReqLogged As String, date_MstRecentReq As String, date_Today As String
+     Dim rng_Header As Range, rng_MstRecentReq As Range, rng_SR1 As Range, rng_SR2 As Range, rng_SR3 As Range, rng_SR4 As Range, rng_SR5 As Range, rng_SR6 As Range, rng_SR7 As Range, rng_SR8 As Range, rng_SR9 As Range, rng_idTVE As Range
+     Dim ac As Integer, user_Pick As Integer
 
-'DECLARE CONSTANT VALUES
+
+     
+     ' DECLARE VARIABLES
      ac = ActiveCell.Row
-     dateSRR1= Format(Date, "mm/dd/yy")
-     dateSRR2 = DateAdd("d", 7, dateSRR1)
-     dateSRR3 = DateAdd("d", 7, dateSRR2)
-     dateSRR4 = DateAdd("d", 7, dateSRR3)
-     dateSRR5 = DateAdd("d", 7, dateSRR4)
-     dateNextSRR = Format(Date, "mm/dd/yy")
+     date_ReqLogged = Format(Date, "mm/dd/yy")
+     date_MstRecentReq = Format(Date, "mm/dd/yy")
+     date_Today = Format(Date, "mm/dd/yy")
 
-' DECLARE CONSTANT OBJECTS
-     Set ws = ThisWorkbook.Sheets("SE504")
-     Set rngNextSRR = ws.Cells(ac,"B")
-     Set rngAllIDNums = ws.Range("C" & ac & ":D" & ac)
-     Set rngSRR1 = ws.Cells(ac, "M")
-     Set rngSRR2 = ws.Cells(ac, "N")
-     Set rngSRR3 = ws.Cells(ac, "O")
-     Set rngSRR4 = ws.Cells(ac, "P")
-     Set rngSRR5 = ws.Cells(ac, "Q")
-
+     ' DECLARE OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE Request Tracker")
+     Set rng_Header = Range(Cells(1, 1), Cells(3, 3))
+     Set rng_idTVE = ws.Cells(ac, "A")
+     Set rng_MstRecentReq = ws.Cells(ac, "I")
+     Set rng_SR1 = ws.Cells(ac, "O")
+     Set rng_SR2 = ws.Cells(ac, "Q")
+     Set rng_SR3 = ws.Cells(ac, "R")
+     Set rng_SR4 = ws.Cells(ac, "S")
+     Set rng_SR5 = ws.Cells(ac, "T")
+     Set rng_SR6 = ws.Cells(ac, "U")
+     Set rng_SR7 = ws.Cells(ac, "V")
+     Set rng_SR8 = ws.Cells(ac, "W")
+     Set rng_SR9 = ws.Cells(ac, "X")
+     
      With ws
-          If ac < 4 Then
-               MsgBox("This row can't be modified.")
+          If ac >= 5 Then
+
+               ' Initial RR / SR1
+               If rng_MstRecentReq = "" And rng_SR1 = "" Then
+                    rng_SR1 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR1
+                    rng_idTVE.Interior.Color = RGB(161, 204, 165)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(161, 204, 165)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' (+) rng_MstRecentReq log, (-) SR1 log
+               ElseIf rng_MstRecentReq <> "" And rng_SR1 = "" Then
+                    
+                    ' capture Most Recent Request Date as SR1
+                    rng_SR1 = rng_MstRecentReq
+
+                    ' log current request date as SR2
+                    rng_SR2 = date_ReqLogged
+
+                    ' apply SR2 formatting
+                    rng_idTVE.Interior.Color = RGB(143, 185, 150)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(143, 185, 150)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' SR2
+               ElseIf rng_SR1 <> "" And rng_SR2 = "" Then
+                    rng_SR2 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR2
+                    rng_idTVE.Interior.Color = RGB(143, 185, 150)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(143, 185, 150)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                    
+               ' SR3
+               ElseIf rng_SR2 <> "" And rng_SR3 = "" Then
+                    rng_SR3 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR3
+                    rng_idTVE.Interior.Color = RGB(112, 151, 117)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(112, 151, 117)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               'SR4
+               ElseIf rng_SR3 <> "" And rng_SR4 = "" Then
+                    rng_SR4 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR4
+                    rng_idTVE.Interior.Color = RGB(65, 93, 67)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(65, 93, 67)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               'SR5
+               ElseIf rng_SR4 <> "" And rng_SR5 = "" Then
+                    rng_SR5 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR5
+                    rng_idTVE.Interior.Color = RGB(17, 29, 19)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(17, 29, 19)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               'SR6
+               ElseIf rng_SR5 <> "" And rng_SR6 = "" Then
+                    rng_SR6 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR6
+                    rng_idTVE.Interior.Color = RGB(142, 202, 230)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(142, 202, 230)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+               
+               'SR7
+               ElseIf rng_SR6 <> "" And rng_SR7 = "" Then
+                    rng_SR7 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR7
+                    rng_idTVE.Interior.Color = RGB(33, 158, 188)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(33, 158, 188)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               'SR8
+               ElseIf rng_SR7 <> "" And rng_SR8 = "" Then
+                    rng_SR8 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR8
+                    rng_idTVE.Interior.Color = RGB(255, 183, 3)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(255, 183, 3)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               'SR9
+               ElseIf rng_SR8 <> "" And rng_SR9 = "" Then
+                    rng_SR9 = date_ReqLogged
+                    rng_MstRecentReq = rng_SR9
+                    rng_idTVE.Interior.Color = RGB(178, 103, 112)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(178, 103, 112)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+               End If
+
           Else
-               'If rr1 = "" Then
-
-                    'Logs first SRR date in Column M / RR1
-                    rngSRR1 = dateSRR1
-
-                    'Fills Columns N:Q with follow up dates to complete a series of 5 attempts (Prev SRR Date + 7 days)
-                    rngSRR2 = dateSRR2
-                    rngSRR3 = dateSRR3
-                    rngSRR4 = dateSRR4
-                    rngSRR5 = dateSRR5
-
-                    'Copies the entry's next follow up date from RR2 to Column B
-                    'and applies formatting based on the SRR Attempt #.
-                    rngNextSRR = rngSRR2
-                    rngNextSRR.Interior.Color = RGB(88,164,176) 
-                    rngNextSRR.Font.Color = RGB(255,255,255)
-
-                    ' Applies RR1 Formatting on the TVE and Identity ID columns
-                    rngAllIDNums.Interior.Color = RGB(120,161,187) 
-                    rngAllIDNums.Font.Color = RGB(255,255,255)
-               'End If
+               MsgBox ("You can't modify this row.")
           End If
      End With
 End Sub
