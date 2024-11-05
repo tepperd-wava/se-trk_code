@@ -1,0 +1,136 @@
+Sub btnUndoSRLog_Click()
+
+     Dim ws As Worksheet
+     Dim date_ReqLogged As String
+     Dim rng_MstRecentReq As Range, rng_SR1 As Range, rng_SR2 As Range, rng_SR3 As Range, rng_SR4 As Range, rng_SR5 As Range, rng_SR6 As Range, rng_SR7 As Range, rng_SR8 As Range, rng_SR9 As Range, rng_idTVE As Range, rng_entry As Range, rng_entryinfo As Range
+     Dim ac As Integer, answer As Integer
+     
+     ' DECLARE VARIABLES
+     ac = ActiveCell.Row
+     date_ReqLogged = Format(Date, "mm/dd/yy")
+
+     ' DECLARE OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE Request Tracker")
+     Set rng_Header = Range(Cells(1, 1), Cells(3, 3))
+     Set rng_idTVE = ws.Cells(ac, "A")
+     Set rng_MstRecentReq = ws.Cells(ac, "I")
+     Set rng_SR1 = ws.Cells(ac, "O")
+     Set rng_SR2 = ws.Cells(ac, "Q")
+     Set rng_SR3 = ws.Cells(ac, "R")
+     Set rng_SR4 = ws.Cells(ac, "S")
+     Set rng_SR5 = ws.Cells(ac, "T")
+     Set rng_SR6 = ws.Cells(ac, "U")
+     Set rng_SR7 = ws.Cells(ac, "V")
+     Set rng_SR8 = ws.Cells(ac, "W")
+     Set rng_SR9 = ws.Cells(ac, "X")
+     Set rng_entry = ActiveCell.EntireRow
+     Set rng_entryinfo = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "Z"))
+     
+     With ws
+
+          If ac < 5 Then
+               MsgBox ("You can't undo this row.")
+          
+          ' TVE ID = N, Data = Y
+          ElseIf rng_idTVE = "" Then
+               If rng_entryinfo <> "" Then
+                    MsgBox ("There's data in this row -- can't clear it yet.")
+               Else
+                    rng_entry.Font.Color = RGB(0, 0, 0)
+                    rng_entry.Interior.Color = xlNone
+               End If
+               
+          ' Has Data
+          Else
+               ' Undo SR9
+               If rng_SR9 <> "" Then
+                    rng_SR9 = ""
+                    rng_MstRecentReq = rng_SR8
+                    rng_idTVE.Interior.Color = RGB(255, 183, 3)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(255, 183, 3)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR8
+               ElseIf rng_SR8 <> "" And rng_SR9 = "" Then
+                    rng_SR8 = ""
+                    rng_MstRecentReq = rng_SR7
+                    rng_idTVE.Interior.Color = RGB(33, 158, 188)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(33, 158, 188)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR7
+               ElseIf rng_SR7 <> "" And rng_SR8 = "" Then
+                    rng_SR7 = ""
+                    rng_MstRecentReq = rng_SR6
+                    rng_idTVE.Interior.Color = RGB(142, 202, 230)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(142, 202, 230)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR6
+               ElseIf rng_SR6 <> "" And rng_SR7 = "" Then
+                    rng_SR6 = ""
+                    rng_MstRecentReq = rng_SR5
+                    rng_idTVE.Interior.Color = RGB(17, 29, 19)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(17, 29, 19)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+     
+               ' Undo SR5
+               ElseIf rng_SR5 <> "" And rng_SR6 = "" Then
+                    rng_SR5 = ""
+                    rng_MstRecentReq = rng_SR4
+                    rng_idTVE.Interior.Color = RGB(65, 93, 67)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(65, 93, 67)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         
+               ' Undo SR4
+               ElseIf rng_SR4 <> "" And rng_SR5 = "" Then
+                    rng_SR4 = ""
+                    rng_MstRecentReq = rng_SR3
+                    rng_idTVE.Interior.Color = RGB(112, 151, 117)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(112, 151, 117)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR3
+               ElseIf rng_SR3 <> "" And rng_SR4 = "" Then
+                    rng_SR3 = ""
+                    rng_MstRecentReq = rng_SR2
+                    rng_idTVE.Interior.Color = RGB(143, 185, 150)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(143, 185, 150)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+                         
+               ' Undo SR2
+               ElseIf rng_SR2 <> "" And rng_SR3 = "" Then
+                    rng_SR2 = ""
+                    rng_MstRecentReq = rng_SR1
+                    rng_idTVE.Interior.Color = RGB(161, 204, 165)
+                    rng_idTVE.Font.Color = RGB(255, 255, 255)
+                    rng_MstRecentReq.Interior.Color = RGB(161, 204, 165)
+                    rng_MstRecentReq.Font.Color = RGB(255, 255, 255)
+
+               ' Undo SR1
+               ElseIf rng_SR1 <> "" And rng_SR2 = "" Then
+
+                    answer = MsgBox("This will delete the SR1 and the Most Recent Request dates. Continue?", vbYesNo + vbQuestion, "Delete SR1 Log")
+
+                    If answer = vbYes Then
+                         rng_SR1 = ""
+                         rng_MstRecentReq = ""
+                         rng_idTVE.Interior.Color = xlNone
+                         rng_idTVE.Font.Color = RGB(0, 0, 0)
+                         rng_MstRecentReq.Interior.Color = xlNone
+                         rng_MstRecentReq.Font.Color = RGB(0, 0, 0)
+                    
+                    End If
+               End If
+          End If
+     End With
+End Sub
+
+
