@@ -22,113 +22,96 @@ Sub btnFlagEntry_Click()
      Set rng_dateSR8 = ws.Cells(ac, "W")
      Set rng_dateSR9 = ws.Cells(ac, "X")
      Set rng_entry = ActiveCell.EntireRow
-     Set rng_infoStudent = ws.Range(ws.Cells(ac,"C"), ws.Cells(ac, "E"))
+     Set rng_infoStudent = ws.Range(ws.Cells(ac, "C"), ws.Cells(ac, "E"))
  
      With ws
-
-          If ac >= 5 Then
-
-               If rng_idTVE.Value = "" Then
-                    If Application.WorksheetFunction.CountA(rng_infoStudent) > 0 Then
-                         MsgBox "This entry's TVE ID was deleted or clear this row's contents before proceeding."
-                    Else
-                         MsgBox "There is no entry to flag."
-                    End If
-               ElseIf rng_infoStudent.Font.Color = RGB(255,0,102) Then
-
-                    answer = MsgBox("This entry will be unflagged. Do you wish to continue?", vbYesNo + vbCritical, "Unflag?")
-
-                    If answer = vbYes Then
-                         rng_entry.Font.Color = RGB(0,0,0)
-
-                         ' Reapply SR Attempt Formatting
-                         ' SR9
-                         If rng_dateSR9.Value <> "" Then
-                              rng_idTVE.Interior.Color = RGB(178, 103, 112)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(178, 103, 112)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR8
-                         ElseIf rng_dateSR8.Value <> "" And rng_dateSR9.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(255, 183, 3)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(255, 183, 3)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR7
-                         ElseIf rng_dateSR7.Value <> "" And rng_dateSR8.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(33, 158, 188)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(33, 158, 188)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR6
-                         ElseIf rng_dateSR6.Value <> "" And rng_dateSR7.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(142, 202, 230)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(142, 202, 230)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR5
-                         ElseIf rng_dateSR5.Value <> "" And rng_dateSR6.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(17, 29, 19)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(17, 29, 19)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR4
-                         ElseIf rng_dateSR4.Value <> "" And rng_dateSR5.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(65, 93, 67)
-                              rng_idTVE.Font.Color = RGB(255, 255, 255)
-                              rng_dateMstRecReq.Interior.Color = RGB(65, 93, 67)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
-
-                         ' SR3
-                         ElseIf rng_dateSR3.Value <> "" And rng_dateSR4.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(112, 151, 117)
-                              rng_idTVE.Font.Color = RGB(255, 183, 3)
-                              rng_dateMstRecReq.Interior.Color = RGB(112, 151, 117)
-                              rng_dateMstRecReq.Font.Color = RGB(255, 183, 3)
-
-                         ' SR2
-                         ElseIf rng_dateSR2.Value <> "" And rng_dateSR3.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(143, 185, 150)
-                              rng_idTVE.Font.Color = RGB(0, 56, 118)
-                              rng_dateMstRecReq.Interior.Color = RGB(143, 185, 150)
-                              rng_dateMstRecReq.Font.Color = RGB(0, 56, 118)
-                                   
-                         ' (+) rng_MstRecentReq log, (-) SR1 log
-                         ElseIf rng_dateMstRecReq.Value <> "" And rng_dateSR1.Value = "" Then
-                              ' capture Most Recent Request Date as SR1
-                              rng_dateSR1.Value = rng_dateMstRecReq.Value
-                              rng_idTVE.Interior.Color = RGB(161,204,165)
-                              rng_idTVE.Font.Color = RGB(255,255,255)
-                              rng_dateMstRecReq.Interior.Color = RGB(161,204,165)
-                              rng_dateMstRecReq.Font.Color = RGB(255,255,255)
-
-                         ' SR1
-                         ElseIf rng_dateSR1.Value <> "" And rng_dateSR2.Value = "" Then
-                              rng_idTVE.Interior.Color = RGB(161,204,165)
-                              rng_idTVE.Font.Color = RGB(255,255,255)
-                              rng_dateMstRecReq.Interior.Color = RGB(161,204,165)
-                              rng_dateMstRecReq.Font.Color = RGB(255,255,255)
-
-                         ' No SR1 == No Fill Color, Automatic/Black Font Color
-                         Else
-                              rng_entry.Font.Color = RGB(0,0,0)
-                              rng_entry.Interior.Color = xlNone
-
-                         End If
-                    End If
-
-               Else
-                    rng_entry.Font.Color = RGB(255,0,102)
-               End If
-          
-          Else
-               MsgBox "Call updates can't be applied here."
-          End If
+         If ac >= 5 Then
+             If rng_idTVE.Value = "" Then
+                 If Application.WorksheetFunction.CountA(rng_infoStudent) > 0 Then
+                     MsgBox "This entry's TVE ID was deleted or clear this row's contents before proceeding."
+                 Else
+                     MsgBox "There is no entry to flag."
+                 End If
+             ElseIf rng_infoStudent.Font.Color = RGB(255, 0, 102) Then
+                 answer = MsgBox("This entry will be unflagged. Do you wish to continue?", vbYesNo + vbCritical, "Unflag?")
+                 If answer = vbYes Then
+                     rng_entry.Font.Color = RGB(0, 0, 0)
+                     ' Reapply SR Attempt Formatting
+                     ' SR9
+                     If rng_dateSR9.Value <> "" Then
+                         rng_idTVE.Interior.Color = RGB(178, 103, 112)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(178, 103, 112)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR8
+                     ElseIf rng_dateSR8.Value <> "" And rng_dateSR9.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(255, 183, 3)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(255, 183, 3)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR7
+                     ElseIf rng_dateSR7.Value <> "" And rng_dateSR8.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(33, 158, 188)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(33, 158, 188)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR6
+                     ElseIf rng_dateSR6.Value <> "" And rng_dateSR7.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(142, 202, 230)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(142, 202, 230)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR5
+                     ElseIf rng_dateSR5.Value <> "" And rng_dateSR6.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(17, 29, 19)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(17, 29, 19)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR4
+                     ElseIf rng_dateSR4.Value <> "" And rng_dateSR5.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(65, 93, 67)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(65, 93, 67)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR3
+                     ElseIf rng_dateSR3.Value <> "" And rng_dateSR4.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(112, 151, 117)
+                         rng_idTVE.Font.Color = RGB(255, 183, 3)
+                         rng_dateMstRecReq.Interior.Color = RGB(112, 151, 117)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 183, 3)
+                     ' SR2
+                     ElseIf rng_dateSR2.Value <> "" And rng_dateSR3.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(143, 185, 150)
+                         rng_idTVE.Font.Color = RGB(0, 56, 118)
+                         rng_dateMstRecReq.Interior.Color = RGB(143, 185, 150)
+                         rng_dateMstRecReq.Font.Color = RGB(0, 56, 118)
+                     ' (+) rng_MstRecentReq log, (-) SR1 log
+                     ElseIf rng_dateMstRecReq.Value <> "" And rng_dateSR1.Value = "" Then
+                         ' capture Most Recent Request Date as SR1
+                         rng_dateSR1.Value = rng_dateMstRecReq.Value
+                         rng_idTVE.Interior.Color = RGB(161, 204, 165)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(161, 204, 165)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' SR1
+                     ElseIf rng_dateSR1.Value <> "" And rng_dateSR2.Value = "" Then
+                         rng_idTVE.Interior.Color = RGB(161, 204, 165)
+                         rng_idTVE.Font.Color = RGB(255, 255, 255)
+                         rng_dateMstRecReq.Interior.Color = RGB(161, 204, 165)
+                         rng_dateMstRecReq.Font.Color = RGB(255, 255, 255)
+                     ' No SR1 == No Fill Color, Automatic/Black Font Color
+                     Else
+                         rng_entry.Font.Color = RGB(0, 0, 0)
+                         rng_entry.Interior.Color = xlNone
+                     End If
+                 End If
+             Else
+                 rng_entry.Font.Color = RGB(255, 0, 102)
+             End If
+         Else
+             MsgBox "Call updates can't be applied here."
+         End If
      End With
-End Sub
+ End Sub
+ 
 ' 05NOV2024 DT
