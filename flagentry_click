@@ -1,8 +1,8 @@
-' Dominique Tepper, 04NOV2024
+' Dominique Tepper, 05NOV2024
 Sub btnFlagEntry_Click()
 
      Dim ws As Worksheet
-     Dim rng_entry As Range, rng_infoStudent rng_idTVE As Range, rng_dateMstRecReq As Range, rng_dateSR1 As Range, rng_dateSR2 As Range, rng_dateSR3 As Range, rng_dateSR4 As Range, rng_dateSR5 As Range, rng_dateSR6 As Range, rng_dateSR7 As Range, rng_dateSR8 As Range, rng_dateSR9 As Range
+     Dim rng_entry As Range, rng_infoStudent As Range, rng_idTVE As Range, rng_dateMstRecReq As Range, rng_dateSR1 As Range, rng_dateSR2 As Range, rng_dateSR3 As Range, rng_dateSR4 As Range, rng_dateSR5 As Range, rng_dateSR6 As Range, rng_dateSR7 As Range, rng_dateSR8 As Range, rng_dateSR9 As Range
      Dim ac As Integer, answer As Integer, flag As Integer
  
      ' DECLARE VARIABLES
@@ -22,7 +22,7 @@ Sub btnFlagEntry_Click()
      Set rng_dateSR8 = ws.Cells(ac, "W")
      Set rng_dateSR9 = ws.Cells(ac, "X")
      Set rng_entry = ActiveCell.EntireRow
-     Set rng_infoStudent = ws.Range(ws.Cells(ac,"C") ws.Cells(ac, "E"))
+     Set rng_infoStudent = ws.Range(ws.Cells(ac,"C"), ws.Cells(ac, "E"))
  
      With ws
 
@@ -108,7 +108,7 @@ Sub btnFlagEntry_Click()
                               rng_dateMstRecReq.Font.Color = RGB(255,255,255)
 
                          ' SR1
-                         ElseIf rng_dateSR1.Value <> "" And rng_dateSR2.Value - "" Then
+                         ElseIf rng_dateSR1.Value <> "" And rng_dateSR2.Value = "" Then
                               rng_idTVE.Interior.Color = RGB(161,204,165)
                               rng_idTVE.Font.Color = RGB(255,255,255)
                               rng_dateMstRecReq.Interior.Color = RGB(161,204,165)
