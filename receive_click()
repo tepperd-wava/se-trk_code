@@ -1,0 +1,131 @@
+' Dominique Tepper, 05NOV2024
+Sub btnReceive_Click()
+
+     Dim ws As Worksheet
+     Dim rng_entry As Range, rng_stdNmeFirst As Range, rng_stdNmeLast As Range, rng_stdNme As Range, rng_dateRecIEP As Range, rng_dateRecEval As Range, rng_dateRec As Range
+     Dim str_dateRecIEP As String, str_dateRecEval As String, str_dateRec As String, str_rec As String, str_datePrevIEP As String, str_datePrevEval As String
+     Dim ac As Integer, answer As Integer, rec As Integer
+     
+     ' DECLARE CONSTANTS
+     ac = ActiveCell.Row
+     str_dateRec = Format(Date, "mm/dd/yy")
+     str_rec = str_dateRec + ";"
+     str_dateRecIEP = ""
+     str_dateRecEval = ""
+     str_datePrevIEP = ""
+     str_datePrevEval = ""
+
+     ' DECLARE OBJECTS
+     Set ws = ThisWorkbook.Sheets("SE Request Tracker")
+     Set rng_stdNmeFirst = ws.Cells(ac, "C")
+     Set rng_stdNmeLast = ws.Cells(ac, "D")
+     Set rng_dateRecIEP = ws.Cells(ac, "L")
+     Set rng_dateRecEval = ws.Cells(ac, "M")
+     Set rng_entry = ws.Range(ws.Cells(ac, "A"), ws.Cells(ac, "X"))
+     Set rng_stdNme = ws.Range(rng_stdNmeFirst, rng_stdNmeLast)
+     Set rng_dateRec = ws.Range(rng_dateRecIEP, rng_dateRecEval)
+
+     With ws
+
+          ' Tracker Body (ac > 5)
+          If ac >= 5
+               ' Error: Missing Student Data
+               If Application.WorksheetFunction.CountA(rng_entry) > 0 Then
+                    MsgBox "This entry has missing data. Please review or clear this row's contents before proceeding."
+               
+               ' Valid Entries
+               Else
+                    ' Inherit Current Values
+                    str_dateRecIEP = rng_dateRecIEP.Value
+                    str_dateRecEval = rng_dateRecEval.Value
+
+                    ' vbYes = IEP Rec Date OR vbNo = Eval Rec Date OR vbCancel = IEP&Eval Rec Date
+                    answer = MsgBox("Select document to Receive:" & vbNewLine & vbNewLine & "Yes = IEP" & vbNewLine & "No = Evaluation" & vbNewLine & "Cancel = IEP and Evaluation", vbYesNoCancel + vbQuestion, "Receive")
+
+                    ' vbYes = IEP Rec Date
+                    If answer = vbYes Then
+
+                         ' IEP CTA
+                         rec = MsgBox("Select IEP action:" & vbNewLine & vbNewLine & "Yes = Append most recent Receive Date to receipt" & vbNewLine & "No = Clear receipt then add new Receive Date" & vbNewLine & "Cancel = Clear Receive tag and date", vbYesNoCancel + vbQuestion, "IEP")
+
+                         ' vbYes = Concat Mst Rec IEP Date
+                         If rec = vbYes Then
+                              rng_stdNmeFirst.Interior.Color = RGB(0,56,118)
+                              rng_stdNmeFirst.Font.Color = RGB(0,131,87)
+                              rng_dateRecIEP.Value = str_rec + str_dateRecIEP
+
+                         ' vbNo = Clear History and Add New IEP Date
+                         ElseIf rec = vbNo Then
+                              rng_dateRecIEP.ClearContents
+                              rng_stdNmeFirst.Interior.Color = RGB(0,56,118)
+                              rng_stdNmeFirst.Font.Color = RGB(0,131,87)
+                              rng_dateRecIEP.Value = str_rec
+
+                         ' vbCancel = Clear IEP Rec Log
+                         ElseIf rec = vbCancel Then
+                              rng_stdNmeFirst.Interior.Color = xlNone
+                              rng_stdNmeFirst.Font.Color = RGB(0,0,0)
+                              rng_dateRecIEP.ClearContents
+                         End If
+
+                    ' vbNo = Eval Rec Date
+                    ElseIf answer = vbNo Then
+                         ' Evaluation CTA
+                         rec = MsgBox("Select Evaluation action:" & vbNewLine & vbNewLine & "Yes = Append most recent Receive Date to receipt" & vbNewLine & "No = Clear receipt then add new Receive Date" & vbNewLine & "Cancel = Clear Receive tag and date", vbYesNoCancel + vbQuestion, "Evaluation")
+
+                         ' vbYes = Concat Mst Rec Eval Date
+                         If rec = vbYes Then
+                              rng_stdNmeLast.Interior.Color = RGB(0,56,118)
+                              rng_stdNmeLast.Font.Color = RGB(0,131,87)
+                              rng_dateRecEval.Value = str_rec + str_dateRecEval
+
+                         ' vbNo = Clear History and Add New Eval Date
+                         ElseIf rec = vbNo Then
+                              rng_dateRecEval.ClearContents
+                              rng_stdNmeLast.Interior.Color = RGB(0,56,118)
+                              rng_stdNmeLast.Font.Color = RGB(0,131,87)
+                              rng_dateRecEval.Value = str_rec
+
+                         ' vbCancel = Clear Evaluation Rec Log
+                         ElseIf rec = vbCancel Then
+                              rng_stdNmeLast.Interior.Color = xlNone
+                              rng_stdNmeLast.Font.Color = RGB(0,0,0)
+                              rng_dateRecEval.ClearContents
+                         End If
+                    
+                    ' vbCancel = IEP & Eval Rec Dates
+                    ElseIf answer = vbCancel Then
+                         ' Receive CTA
+                         rec = MsgBox("Select IEP & Evaluation action:" & vbNewLine & vbNewLine & "Yes = Add most recent dates to receipt history" & vbNewLine & "No = clear receipt history and add new received date" & vbNewLine & "Cancel = clear Received tags and dates", vbYesNoCancel + vbQuestion, "IEP & Evaluation")
+
+                         ' vbYes = Concat Mst Rec IEP&Eval Dates
+                         If rec = vbYes Then
+                              rng_stdNme.Interior.Color = RGB(0,56,118)
+                              rng_stdNme.Font.Color = RGB(0,131,87)
+                              rng_dateRecIEP.Value = str_rec + str_dateRecIEP
+                              rng_dateRecEval.Value = str_rec + str_dateRecEval
+
+                         ' vbNo = Clear History and Add New IEP&Eval Dates
+                         If rec = vbNo Then
+                              rng_dateRec.ClearContents
+                              rng_stdNme.Interior.Color = RGB(0,56,118)
+                              rng_stdNme.Font.Color = RGB(0,131,87)
+                              rng_dateRecIEP.Value = str_rec
+                              rng_dateRecEval.Value = str_rec
+
+                         ' vbCancel = Clear IEP&Eval Logs
+                         If rec = vbCancel Then
+                              rng_stdNme.Interior.Color = xlNone
+                              rng_stdNme.Font.Color = RGB(0,0,0)
+                              rng_dateRec.ClearContents
+                         End If
+                    End If
+
+               End If
+          ' Tracker Header (ac <= 4)
+          Else
+               MsgBox "Received updates can't be applied to the header area."
+          End If
+     End With
+End Sub
+' 05NOV2024 DT
